@@ -7,8 +7,30 @@
 </head>
 <body>
     <h1> Piña Segura Andrea Jareth Primera preentrega</h1>
-    <p>simulador de carrito de compras de un usuario especifico con calculadora de pago a msi y calculadore de descuentos</p>
+    <p>simulador de carrito de compras de un usuario especifico con calculadora de pago a msi</p>
+    <h2>Descripción de algoritmo</h2>
+    <p>
+        Declaramos las variables "user" y "password", las cuales entrarán en un ciclo "do while" para que se valide la identidad del usuario. Si alguna de las variables es incorrecta, se mostrará cíclicamente la ventana para ingresar los datos correctos.
+    </p>
+    <p>
+        Una vez validado el usuario, se muestra el carrito de compras anteriormente guardado, representado como un array con nombre "lista". Esto se muestra en la consola con una función llamada "imprimir lista".
+    </p>
+    <p>
+        Al mismo tiempo, se muestra el precio total del carrito mediante una función llamada "tCompra". El resultado se guarda en una variable llamada "totalCompra" para su uso posterior.
+    </p>
+    <p>
+        Se le pide al usuario que indique si desea realizar su pago en cuotas. La decisión se guarda en un "elseif".
+    </p>
+    <p>
+        Si el usuario elige pagar a cuotas, se le pide que indique en cuántas cuotas desea pagar. Dependiendo de la opción elegida, se aplica un porcentaje de intereses. Luego, se llama a una función previamente declarada para realizar los cálculos del total. Según el período de tiempo elegido, se muestra el cálculo en pantalla y se finaliza la operación.
+    </p>
+    <p>
+        Si el usuario no desea pagar a cuotas, se muestra el total a pagar y se finaliza el simulador.
+    </p>
+    <p>
+        Se agregó un último "else" para evitar que el usuario ingrese una opción incorrecta. En este caso, se muestra un mensaje de que la opción ingresada no es válida y se termina el simulador.
+    </p>
 
-    <script src="proto.js"> </script>
+<script src="proto.js"> </script>
 </body>
 </html>
