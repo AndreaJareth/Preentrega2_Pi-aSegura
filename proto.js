@@ -12,65 +12,74 @@ do {
     }
 } while (!(user === "usuario prototipo" && password === "HolaMundo123"))
 
+const carrito = [];
+
 const lista = [
     { nombre: "zapatoRojo", precio: 750 },
     { nombre: "botaCowboy", precio: 980 },
     { nombre: "zapatilla", precio: 860 },
     { nombre: "valerina", precio: 600 },
     { nombre: "sandalia", precio: 580 }
-  ];
-  
-  function imprimirLista(lista) { 
+];
+
+function imprimirLista(lista) { 
     console.log("Estos son los artículos que tenías en la cesta:");
-    let total = 0;
     for (let i = 0; i < lista.length; i++) {
-      console.log(`${i + 1}. ${lista[i].nombre}: $${lista[i].precio}`);
+        const item = lista[i];
+        const cantidadEnCarrito = carrito.filter(itemCarrito => itemCarrito.nombre === item.nombre).length;
+        console.log(`${i + 1}. ${item.nombre} (Cantidad: ${cantidadEnCarrito}): $${item.precio}`);
     }  
-  }
+}
 
-  function tCompra(lista) { 
-    let total = 0;
-    for (let i = 0; i < lista.length; i++) {
-     total += lista[i].precio;
-    }  
-    return  total;
-  }
+function calcularTotalConDescuento(total, descuento) {
+    const descuentoAplicado = (total * descuento) / 100;
+    return total - descuentoAplicado;
+}
 
-  let totalCompra =  tCompra(lista);
+let totalCompra = 0;
 
-  imprimirLista(lista);
-  console.log(`el total de tucarrito es ${totalCompra}`);
+imprimirLista(lista);
 
-  
-  const formaPago = prompt(`¿Deseas pagar a meses con interés (escribe si) o en una sola cuota (escribe no)?`);
+while (true) {
+    const accion = prompt("¿Deseas agregar un artículo al carrito (agregar), eliminar un artículo (eliminar), aplicar descuento (descuento), o finalizar la compra (finalizar)?");
 
-  function calcularTotalConInteres(total, porcentajeInteres, numeroMeses) {
-    const interes = (total * porcentajeInteres) / 100;
-    const totalConInteres = total + interes;
-    const cuotaMensual = totalConInteres / numeroMeses;
-    return { totalConInteres, cuotaMensual };
-  }
-  
-  let porcentajeInteres; 
-  
-  if (formaPago === "si") {
-    let numeroMeses = parseInt(prompt("Ingresa el número de meses: 6, 8 o 12"));
-  
-    if (numeroMeses == 6) {
-      porcentajeInteres = 10; 
-    } else if (numeroMeses == 8) {
-      porcentajeInteres = 12; 
-    } else if (numeroMeses == 12) {
-      porcentajeInteres = 15; 
+    if (accion === "agregar") {
+        const nombreArticulo = prompt("Ingrese el nombre del artículo que desea agregar:");
+        const item = lista.find(item => item.nombre === nombreArticulo);
+
+        if (item) {
+            carrito.push(item);
+            console.log(`${nombreArticulo} ha sido agregado al carrito.`);
+        } else {
+            console.log("Artículo no encontrado en la lista.");
+        }
+    } else if (accion === "eliminar") {
+        const nombreArticulo = prompt("Ingrese el nombre del artículo que desea eliminar:");
+        const index = carrito.findIndex(item => item.nombre === nombreArticulo);
+
+        if (index !== -1) {
+            carrito.splice(index, 1);
+            console.log(`${nombreArticulo} ha sido eliminado del carrito.`);
+        } else {
+            console.log("Artículo no encontrado en el carrito.");
+        }
+    } else if (accion === "descuento") {
+        const porcentajeDescuento = parseFloat(prompt("Ingrese el porcentaje de descuento a aplicar:"));
+        if (!isNaN(porcentajeDescuento)) {
+            totalCompra = calcularTotalConDescuento(totalCompra, porcentajeDescuento);
+            console.log(`Se ha aplicado un descuento del ${porcentajeDescuento}%.`);
+        } else {
+            console.log("Porcentaje de descuento no válido.");
+        }
+    } else if (accion === "finalizar") {
+        break;
     } else {
-      console.log(`Opción no válida`);
+        console.log("Acción no válida.");
     }
-  
-    const { totalConInteres, cuotaMensual } = calcularTotalConInteres(totalCompra, porcentajeInteres, numeroMeses);
-    console.log(`Total con interés: $${totalConInteres}`);
-    console.log(`Cuota mensual: $${cuotaMensual}`);
-  } else if (formaPago === "no") {
-    console.log(`Total a pagar: $${totalCompra}`);
-  } else {
-    console.log(`Opción de pago no válida`);
-  }
+}
+
+const listaDeCompras = carrito.map(item => ({ nombre: item.nombre, precio: item.precio }));
+
+console.log(`El total de tu carrito es $${totalCompra}`);
+console.log("Lista de compras realizadas:");
+console.log(listaDeCompras);
